@@ -1,8 +1,11 @@
-# 🏥 Averon Health
+# 🏥 Averon Health — Medical Billing & RCM Platform
 
-**Seamless Healthcare Contact Management Platform**
+**Averon Healthcare Solutions** is a full-stack, production-ready web platform 
+for a medical billing startup offering end-to-end Revenue Cycle Management (RCM) 
+services to healthcare providers across the United States.
 
-A lightweight, full-stack solution for capturing and organizing patient inquiries. Connect your website to Google Sheets in minutes—no complex databases required.
+## 🌐 Live Deployed
+🔗 www.averonhcs.com
 
 ---
 
