@@ -1,0 +1,130 @@
+<!--
+  Drop-in contact form snippet for Averon Health.
+  Copy this into your HTML page where the contact section should appear.
+  Update BACKEND_URL below to match your deployment.
+-->
+
+<script>
+  // ── Configuration ──
+  // Local dev:
+  const BACKEND_URL = 'http://localhost:3000/api/contact';
+  // Production (update when deployed):
+  // const BACKEND_URL = 'https://yourdomain.com/api/contact';
+</script>
+
+<form id="contactForm" onsubmit="return submitContactForm(event)">
+  <div class="form-grid">
+    <div class="form-group">
+      <label for="fname">First Name</label>
+      <input type="text" id="fname" placeholder="Dr. Karen" required />
+    </div>
+    <div class="form-group">
+      <label for="lname">Last Name</label>
+      <input type="text" id="lname" placeholder="Patterson" />
+    </div>
+    <div class="form-group">
+      <label for="email">Email Address</label>
+      <input type="email" id="email" placeholder="karen@mypractice.com" required />
+    </div>
+    <div class="form-group">
+      <label for="phone">Phone Number</label>
+      <input type="tel" id="phone" placeholder="(555) 000-0000" />
+    </div>
+    <div class="form-group full">
+      <label for="practice">Practice Name</label>
+      <input type="text" id="practice" placeholder="Green Valley Internal Medicine" />
+    </div>
+    <div class="form-group">
+      <label for="specialty">Specialty</label>
+      <select id="specialty">
+        <option value="">Select Specialty</option>
+        <option>Internal Medicine</option>
+        <option>Family Practice</option>
+        <option>Cardiology</option>
+        <option>Orthopedics</option>
+        <option>Pediatrics</option>
+        <option>Mental Health</option>
+        <option>Telehealth</option>
+        <option>Other</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="size">Practice Size</label>
+      <select id="size">
+        <option value="">Select Size</option>
+        <option>Solo Provider</option>
+        <option>2–5 Providers</option>
+        <option>6–15 Providers</option>
+        <option>16+ Providers</option>
+        <option>Hospital / System</option>
+      </select>
+    </div>
+    <div class="form-group full">
+      <label for="service">Service of Interest</label>
+      <select id="service">
+        <option value="">Select Service</option>
+        <option>Credentialing</option>
+        <option>End-to-End Billing</option>
+        <option>Medical Coding</option>
+        <option>Revenue Cycle Management</option>
+        <option>Compliance Consulting</option>
+        <option>Telehealth Billing</option>
+        <option>All Services</option>
+      </select>
+    </div>
+    <div class="form-group full">
+      <label for="message">Tell Us About Your Needs</label>
+      <textarea id="message" placeholder="Describe your current billing challenges..."></textarea>
+    </div>
+  </div>
+  <div class="form-submit">
+    <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;font-size:1rem;">
+      Request Free Assessment →
+    </button>
+  </div>
+  <p class="form-note">🔐 Your information is 100% confidential and protected by our HIPAA-compliant privacy policy.</p>
+</form>
+
+<script>
+  async function submitContactForm(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button[type="submit"]');
+    const originalText = btn.textContent;
+
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+
+    const payload = {
+      firstName: document.getElementById('fname').value,
+      lastName:  document.getElementById('lname').value,
+      email:     document.getElementById('email').value,
+      phone:     document.getElementById('phone').value,
+      practice:  document.getElementById('practice').value,
+      specialty: document.getElementById('specialty').value,
+      size:      document.getElementById('size').value,
+      service:   document.getElementById('service').value,
+      message:   document.getElementById('message').value,
+    };
+
+    try {
+      const res = await fetch(BACKEND_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+      if (data.success) {
+        btn.textContent = '✓ Request Submitted — We\'ll Be in Touch Soon!';
+        btn.style.background = 'linear-gradient(135deg, #059669, #065f46)';
+      } else {
+        alert(data.message || 'Something went wrong.');
+        btn.textContent = originalText;
+        btn.disabled = false;
+      }
+    } catch (err) {
+      alert('Network error. Please try again.');
+      btn.textContent = originalText;
+      btn.disabled = false;
+    }
+  }
+</script>
