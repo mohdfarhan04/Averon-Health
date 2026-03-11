@@ -6,7 +6,8 @@
 <title>Averon Healthcare Solutions – Your Credentialing Partner</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Lora:wght@400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Lora:wght@400;500;600&display=swap"></noscript>
     <link rel="stylesheet" href="styles.css">
 <style>
 :root {
@@ -35,18 +36,20 @@ body{font-family:'Lora',Georgia,serif;background:#f5f8ff;color:var(--text);overf
 ::-webkit-scrollbar-thumb{background:var(--blue);border-radius:3px;}
 
 /* ── PAGE SYSTEM ── */
-.page{display:none;min-height:100vh;opacity:0;transform:translateY(20px);transition:opacity 0.5s ease,transform 0.5s ease;will-change:opacity,transform;}
+.page{display:none;min-height:100vh;opacity:0;transform:translateY(20px);transition:opacity 0.5s ease,transform 0.5s ease;}
 .page.active{display:block;opacity:1;transform:translateY(0);}
+.page.animating{will-change:opacity,transform;}
 .page.slide-in{animation:slidePageIn 0.5s cubic-bezier(.22,.68,0,1.2) forwards;}
 .page.slide-out{animation:slidePageOut 0.4s ease forwards;}
 @keyframes slidePageIn{from{opacity:0;transform:translateY(40px) scale(0.98)}to{opacity:1;transform:translateY(0) scale(1)}}
 @keyframes slidePageOut{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-30px)}}
 
 /* ── NAV ── */
-nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 5%;height:100px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;background:rgba(10,31,68,0.92);backdrop-filter:blur(18px);border-bottom:1px solid rgba(59,130,246,0.15);transition:all 0.3s ease;}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 5%;height:100px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;background:rgba(10,31,68,0.92);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(59,130,246,0.15);transition:background 0.3s ease,box-shadow 0.3s ease;}
 nav.scrolled{background:rgba(10,31,68,0.98);box-shadow:0 2px 8px rgba(0,0,0,0.2);}
 .nav-logo{display:flex;align-items:center;gap:12px;cursor:pointer;justify-self:start;}
-.nav-logo img{height:125px;width:auto;}
+.nav-logo img{height:125px;width:auto;filter:brightness(1.9) drop-shadow(0 0 8px rgba(96,165,250,0.45));transition:filter 0.3s ease;}
+.nav-logo:hover img{filter:brightness(1.7) drop-shadow(0 0 14px rgba(96,165,250,0.65));}
 .nav-links{display:flex;align-items:center;gap:6px;justify-self:center;}
 .nav-links a{color:rgba(255,255,255,0.85);text-decoration:none;font-family:'Lora',Georgia,serif;font-size:0.95rem;font-weight:500;padding:9px 16px;border-radius:8px;transition:all 0.3s ease;position:relative;cursor:pointer;white-space:nowrap;}
 .nav-links a::after{content:'';position:absolute;bottom:4px;left:50%;width:0;height:2px;background:var(--accent);border-radius:2px;transition:all 0.3s ease;transform:translateX(-50%);}
@@ -98,6 +101,8 @@ nav.scrolled{background:rgba(10,31,68,0.98);box-shadow:0 2px 8px rgba(0,0,0,0.2)
   filter:blur(22px);
   opacity:.5;
   pointer-events:none;
+  transform:translateZ(0);
+  will-change:background;
 }
 .hero-orb{position:absolute;border-radius:50%;filter:blur(40px);}
 .orb1{width:600px;height:600px;background:radial-gradient(circle,rgba(26,86,219,0.3),transparent);top:-200px;right:-100px;animation-delay:0s;}
@@ -118,6 +123,7 @@ nav.scrolled{background:rgba(10,31,68,0.98);box-shadow:0 2px 8px rgba(0,0,0,0.2)
   mask-image:radial-gradient(circle 360px at var(--mx,35%) var(--my,40%), #000 0%, rgba(0,0,0,.85) 42%, transparent 100%);
   -webkit-mask-image:radial-gradient(circle 360px at var(--mx,35%) var(--my,40%), #000 0%, rgba(0,0,0,.85) 42%, transparent 100%);
   animation:dottedDrift 18s linear infinite;
+  transform:translateZ(0);
 }
 @keyframes dottedDrift{from{background-position:0 0,11px 11px;}to{background-position:48px 24px,59px 35px;}}
 
@@ -199,24 +205,6 @@ section{padding:72px 5%;}
 .who-card p{font-size:0.9rem;color:var(--muted);line-height:1.6;position:relative;z-index:1;transition:color 0.4s ease;}
 .who-link{display:inline-flex;align-items:center;gap:6px;margin-top:18px;font-size:0.85rem;font-weight:600;color:var(--blue);text-decoration:none;cursor:pointer;position:relative;z-index:1;transition:color 0.4s ease;}
 
-/* ── WHY AVERON ── */
-.why-section{background:rgba(26,86,219,0.03);}
-.why-layout{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
-.why-visual{position:relative;}
-.why-img-wrapper{border-radius:24px;overflow:hidden;position:relative;}
-.why-img-wrapper img{width:100%;height:420px;object-fit:cover;display:block;}
-.why-img-wrapper::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(26,86,219,0.3),transparent);}
-.why-float-card{position:absolute;bottom:-20px;right:-20px;background:#fff;border-radius:16px;padding:20px 24px;box-shadow:0 20px 50px rgba(0,0,0,0.12);border:1px solid rgba(26,86,219,0.1);}
-.why-float-card .num{font-family:'Playfair Display',Georgia,serif;font-size:2rem;font-weight:700;color:var(--blue);}
-.why-float-card .label{font-size:0.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;}
-.why-tabs{display:flex;flex-direction:column;gap:4px;margin-bottom:32px;}
-.why-tab{padding:18px 24px;border-radius:14px;cursor:pointer;transition:background 0.3s ease,color 0.3s ease;border:1px solid transparent;}
-.why-tab.active{background:var(--light);border-color:rgba(26,86,219,0.15);}
-.why-tab h4{font-family:'Playfair Display',Georgia,serif;font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:6px;}
-.why-tab p{font-size:0.88rem;color:var(--muted);line-height:1.6;display:none;}
-.why-tab.active p{display:block;}
-.why-tab:hover{background:var(--light);}
-
 /* ── STATS ── */
 .stats-section{background:linear-gradient(180deg,#0a1f44 0%,#0d2552 50%,#0a1f44 100%);position:relative;overflow:hidden;}
 .stats-section::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(59,130,246,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(59,130,246,0.06) 1px,transparent 1px);background-size:60px 60px;}
@@ -232,7 +220,7 @@ section{padding:72px 5%;}
 /* ── SERVICES ── */
 .services-section{background:rgba(26,86,219,0.025);}
 .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
-.service-card{background:rgba(255,255,255,0.8);backdrop-filter:blur(8px);border-radius:20px;padding:32px;border:1px solid rgba(26,86,219,0.08);transition:all 0.4s ease;cursor:pointer;position:relative;overflow:hidden;}
+.service-card{background:rgba(255,255,255,0.8);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:20px;padding:32px;border:1px solid rgba(26,86,219,0.08);transition:transform 0.4s ease,box-shadow 0.4s ease,border-color 0.4s ease;cursor:pointer;position:relative;overflow:hidden;}
 .service-card::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:3px;background:var(--grad2);transform:scaleX(0);transition:transform 0.4s ease;}
 .service-card:hover{transform:translateY(-8px);box-shadow:0 24px 50px rgba(26,86,219,0.15);border-color:rgba(26,86,219,0.2);}
 .service-card:hover::after{transform:scaleX(1);}
@@ -245,7 +233,7 @@ section{padding:72px 5%;}
 /* ── VALUES SECTION (HOME) ── */
 .values-section{position:relative;overflow:hidden;background:transparent;}
 .values-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;position:relative;z-index:2;}
-.value-card{background:rgba(255,255,255,0.9);backdrop-filter:blur(8px);border-radius:20px;padding:30px;border:1px solid rgba(26,86,219,0.1);position:relative;overflow:hidden;transition:transform 0.32s ease,box-shadow 0.32s ease,border-color 0.32s ease,opacity 0.32s ease;opacity:0;transform:translateY(18px);animation:valueStaggerIn 0.7s ease forwards;}
+.value-card{background:rgba(255,255,255,0.9);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:20px;padding:30px;border:1px solid rgba(26,86,219,0.1);position:relative;overflow:hidden;transition:transform 0.32s ease,box-shadow 0.32s ease,border-color 0.32s ease,opacity 0.32s ease;opacity:0;transform:translateY(18px);animation:valueStaggerIn 0.7s ease forwards;}
 .value-card:nth-child(3n+2){margin-top:16px;animation-delay:.08s;}
 .value-card:nth-child(3n){margin-top:32px;animation-delay:.16s;}
 .values-grid:hover .value-card{opacity:.82;transform:translateY(0) scale(0.985);}
@@ -366,7 +354,7 @@ footer{background:linear-gradient(180deg,#0a1f44 0%,#060e1e 100%);color:rgba(255
 /* ── SECTION TRANSITIONS (disabled — no color merge) ── */
 .hero::after{display:none;}
 .stats-section::after{display:none;}
-.testimonials-section::before,.testimonials-section::after{display:none;}
+.testimonials-section::after{display:none;}
 
 /* ── SCROLL ANIMATIONS ── */
 .reveal{opacity:0;transform:translateY(40px);transition:opacity 0.7s ease,transform 0.7s ease;}
@@ -380,7 +368,6 @@ footer{background:linear-gradient(180deg,#0a1f44 0%,#060e1e 100%);color:rgba(255
 @media(max-width:1024px){
   .hero{grid-template-columns:1fr;padding:140px 5% 60px;}
   .hero-right{margin-top:40px;}
-  .why-layout{grid-template-columns:1fr;}
   .stats-grid{grid-template-columns:repeat(3,1fr);}
   .footer-top{grid-template-columns:1fr 1fr;}
   /* keep contact layout side-by-side but tighter on medium screens */
@@ -410,11 +397,45 @@ footer{background:linear-gradient(180deg,#0a1f44 0%,#060e1e 100%);color:rgba(255
 /* ── LOADING OVERLAY ── */
 #page-loader{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:var(--navy);z-index:2000;transition:opacity .3s ease,visibility .3s;}
 #page-loader .loader-logo{color:#fff;text-align:center;font-family:'Playfair Display',Georgia,serif;font-weight:700;font-size:1.25rem;}
-#page-loader .loader-logo img{height:140px;width:auto;margin:0 auto 16px;display:block;}
+#page-loader .loader-logo img{height:140px;width:auto;margin:0 auto 16px;display:block;filter:brightness(1.5) drop-shadow(0 0 12px rgba(96,165,250,0.5));}
 #page-loader .loader-spinner{width:36px;height:36px;border:3px solid rgba(255,255,255,0.15);border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto;}
 @keyframes spin{to{transform:rotate(360deg);}}
 #page-loader.hidden{opacity:0;visibility:hidden;pointer-events:none;}
 .scroll-indicator{display:none !important;}
+
+/* ── PERFORMANCE: GPU COMPOSITING ── */
+.int-inner{transform:translateZ(0);}
+.hero-orb,.hero-shader,.hero-dotted-surface{transform:translateZ(0);}
+
+/* ── PERFORMANCE: CONTENT VISIBILITY ── */
+.values-section,.integrations-section,.testimonials-section,.contact-section{content-visibility:auto;contain-intrinsic-size:0 600px;}
+
+/* ── HAMBURGER BUTTON ── */
+.hamburger{display:none;flex-direction:column;justify-content:space-between;width:28px;height:20px;background:none;border:none;cursor:pointer;padding:0;z-index:1100;}
+.hamburger span{display:block;width:100%;height:2px;background:#fff;border-radius:2px;transition:transform 0.3s ease,opacity 0.3s ease;}
+.hamburger.open span:nth-child(1){transform:translateY(9px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:translateY(-9px) rotate(-45deg);}
+
+/* ── MOBILE DRAWER ── */
+.mobile-nav{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(8,20,52,0.98);z-index:1050;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;transform:translateX(100%);transition:transform 0.35s cubic-bezier(.22,.68,0,1.2);pointer-events:none;}
+.mobile-nav.open{transform:translateX(0);pointer-events:all;}
+.mobile-nav a,.mobile-nav button.mobile-nav-link{display:block;width:100%;text-align:center;color:#fff;text-decoration:none;font-family:'Playfair Display',Georgia,serif;font-size:1.4rem;font-weight:700;padding:16px 24px;border-radius:12px;background:none;border:none;cursor:pointer;transition:background 0.2s ease,color 0.2s ease;}
+.mobile-nav a:hover,.mobile-nav button.mobile-nav-link:hover{background:rgba(56,189,248,0.12);color:var(--accent);}
+.mobile-nav .mobile-nav-cta{margin-top:20px;background:var(--grad2);color:#fff;padding:16px 40px;border-radius:12px;font-family:'Playfair Display',Georgia,serif;font-size:1rem;font-weight:700;border:none;cursor:pointer;box-shadow:0 6px 20px rgba(26,86,219,0.4);}
+
+@media(max-width:768px){
+  .hamburger{display:flex;}
+  .nav-links{display:none !important;}
+  .nav-cta-wrap{display:none;}
+  nav{grid-template-columns:1fr auto;padding:0 5%;}
+  /* Form stacks nicely on mobile */
+  .hero{padding:120px 5% 50px;}
+  .hero-right{margin-top:30px;}
+  .form-card{padding:24px 18px;}
+  /* Touch-friendly tap targets */
+  .mobile-nav a,.mobile-nav button.mobile-nav-link{min-height:52px;display:flex;align-items:center;justify-content:center;}
+}
 </style>
 </head>
 <body>
@@ -426,12 +447,14 @@ footer{background:linear-gradient(180deg,#0a1f44 0%,#060e1e 100%);color:rgba(255
     <div class="loader-spinner"></div>
   </div>
 </div>
-  </div>
-</div>
-
 <!-- NAV -->
 <nav id="mainNav">
-  <div class="nav-logo" onclick="showPage('home')">
+    <div class="nav-logo" onclick="showPage('home')">
+    <img
+      src="../reference/logo-removebg-preview.png"
+      alt="Averon Healthcare Solutions"
+      onerror="this.src='/reference/logo-removebg-preview.png'"
+    />
   </div>
   <div class="nav-links">
     <a onclick="showPage('home')">Home</a>
@@ -442,8 +465,22 @@ footer{background:linear-gradient(180deg,#0a1f44 0%,#060e1e 100%);color:rgba(255
     <a onclick="showPage('about')">About Us</a>
     <a onclick="scrollToContact()">Contact Us</a>
   </div>
-  <div class="nav-cta-wrap"></div>
+  <div class="nav-cta-wrap">
+    <button class="nav-cta" onclick="scrollToContact()">Free Assessment →</button>
+  </div>
+  <button class="hamburger" id="hamburgerBtn" aria-label="Open menu" onclick="toggleMobileNav()">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<!-- MOBILE DRAWER -->
+<div class="mobile-nav" id="mobileNav">
+  <button class="mobile-nav-link" onclick="showPage('home');closeMobileNav()">Home</button>
+  <button class="mobile-nav-link" onclick="showPage('services');closeMobileNav()">Services</button>
+  <button class="mobile-nav-link" onclick="showPage('about');closeMobileNav()">About Us</button>
+  <button class="mobile-nav-link" onclick="toggleSpecialtyPanel();closeMobileNav()">Specialities ▾</button>
+  <button class="mobile-nav-cta" onclick="scrollToContact();closeMobileNav()">Free Assessment →</button>
+</div>
 
 <!-- SPECIALTY OVERLAY -->
 <div class="specialty-panel-overlay" id="specialtyOverlay" onclick="closeSpecialtyPanel()"></div>
@@ -548,7 +585,7 @@ footer{background:linear-gradient(180deg,#0a1f44 0%,#060e1e 100%);color:rgba(255
         </div>
         <form id="contactSectionForm" onsubmit="return submitContactSection(event)">
           <div class="form-grid">
-            <div class="form-group"><label>First Name*</label><input type="text" id="c-fname" required placeholder="M"/></div>
+            <div class="form-group"><label>First Name*</label><input type="text" id="c-fname" required placeholder="Chris"/></div>
             <div class="form-group"><label>Last Name</label><input type="text" id="c-lname" placeholder="Farhan"/></div>
             <div class="form-group"><label>Email*</label><input type="email" id="c-email" required placeholder="Farhan@mypractice.com"/></div>
             <div class="form-group"><label>Phone</label><input type="tel" id="c-phone" placeholder="(555) 000-0000"/></div>
@@ -564,7 +601,7 @@ footer{background:linear-gradient(180deg,#0a1f44 0%,#060e1e 100%);color:rgba(255
               <select id="c-size"><option value="">Select Size</option><option>Solo Provider</option><option>2–5 Providers</option><option>6–15 Providers</option><option>16+ Providers</option><option>Hospital / System</option></select>
             </div>
             <div class="form-group full"><label>Service of Interest</label>
-              <select id="c-service"><option value="">Select Service</option><option>Credentialing</option><option>End-to-End Billing</option><option>Medical Coding</option><option>Revenue Cycle Management</option><option>Compliance Consulting</option><option></option><option>All Services</option></select>
+              <select id="c-service"><option value="">Select Service</option><option>Credentialing</option><option>End-to-End Billing</option><option>Medical Coding</option><option>Revenue Cycle Management</option><option>Compliance Consulting</option><option>All Services</option></select>
             </div>
             <div class="form-group full"><label>Tell Us About Your Needs</label><textarea id="c-message" placeholder="Describe your current billing challenges..."></textarea></div>
           </div>
@@ -632,7 +669,7 @@ footer{background:linear-gradient(180deg,#0a1f44 0%,#060e1e 100%);color:rgba(255
   <!-- STATS -->
   <!-- INTEGRATIONS -->
   <section class="integrations-section">
-    <div class="section-header" style="text-align:center;" class="reveal">
+    <div class="section-header reveal" style="text-align:center;">
       <h2 class="section-title">Our Credentialing <span>Ecosystem</span></h2>
       <p class="section-sub" style="margin:0 auto;">We handle the complexity of every major payer portal so you don't have to.</p>
     </div>
@@ -872,7 +909,7 @@ footer{background:linear-gradient(180deg,#0a1f44 0%,#060e1e 100%);color:rgba(255
               <div style="font-size:0.82rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;">Credentialing and Contracting</div>
             </div>
             <div style="background:var(--light);border-radius:14px;padding:20px;">
-              <div style="font-size:1.4rem;font-family:'Playfair Display',Georgia,serif;font-weight:700;color:var(--blue);">&lt;0%</div>
+              <div style="font-size:1.4rem;font-family:'Playfair Display',Georgia,serif;font-weight:700;color:var(--blue);">&lt;1%</div>
               <div style="font-size:0.82rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;">Enrollment Errors</div>
             </div>
             <div style="background:var(--light);border-radius:14px;padding:20px;">
@@ -917,7 +954,7 @@ footer{background:linear-gradient(180deg,#0a1f44 0%,#060e1e 100%);color:rgba(255
           </ul>
         </div>
         <div style="border-radius:12px;overflow:hidden;box-shadow:0 14px 36px rgba(10,31,68,0.12);">
-          <img src="../reference/Startup-accelerator-programs-in-India.jpg" alt="About visual" style="width:100%;height:420px;object-fit:cover;display:block;" onerror="this.src='/reference/Startup-accelerator-programs-in-India.jpg'">
+          <img src="../reference/Startup-accelerator-programs-in-India.jpg" alt="About visual" loading="lazy" style="width:100%;height:420px;object-fit:cover;display:block;" onerror="this.src='/reference/Startup-accelerator-programs-in-India.jpg'">
         </div>
       </div>
     </section>
@@ -956,75 +993,13 @@ footer{background:linear-gradient(180deg,#0a1f44 0%,#060e1e 100%);color:rgba(255
           <button class="btn-primary" onclick="showPage('home');setTimeout(scrollToContact,400);">Get started →</button>
         </div>
         <div style="border-radius:12px;overflow:hidden;box-shadow:0 14px 40px rgba(0,0,0,0.28);">
-          <img src="../reference/Top-Coworking-space-India-StartupTalky.jpg" alt="Team meeting" style="width:100%;height:360px;object-fit:cover;display:block;" onerror="this.src='/reference/Top-Coworking-space-India-StartupTalky.jpg'">
+          <img src="../reference/Top-Coworking-space-India-StartupTalky.jpg" alt="Team meeting" loading="lazy" style="width:100%;height:360px;object-fit:cover;display:block;" onerror="this.src='/reference/Top-Coworking-space-India-StartupTalky.jpg'">
         </div>
       </div>
     </section>
 
     <footer style="background:var(--navy);color:rgba(255,255,255,0.6);padding:40px 5%;text-align:center;">
       <p style="font-size:0.85rem;">© 2026 Averon Healthcare Solutions. <a onclick="showPage('home')" style="color:var(--accent);cursor:pointer;">Back to Home</a></p>
-    </footer>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════ WHY AVERON PAGE ═══════════════════════════════════════ -->
-<div id="page-why" class="page">
-  <div class="inner-page">
-    <div class="inner-hero">
-      <div class="inner-hero-content">
-        <div class="breadcrumb"><a onclick="showPage('home')">Home</a> <span>/</span> <span style="color:#fff;">Why Averon</span></div>
-        <h1>Why Choose <span style="background:var(--grad2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Averon</span></h1>
-        <p>Discover what sets us apart from generic billing companies — and why thousands of providers trust us with their revenue cycle.</p>
-      </div>
-    </div>
-
-    <section style="background:#fff;padding:90px 5%;">
-      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:28px;" class="reveal">
-        <div style="background:#f8fbff;border-radius:20px;padding:36px;border:1px solid rgba(26,86,219,0.08);transition:all 0.3s ease;" onmouseenter="this.style.transform='translateY(-6px)'" onmouseleave="this.style.transform=''">
-          <div style="font-size:2.5rem;margin-bottom:18px;">🔬</div>
-          <h3 style="font-family:'Playfair Display',Georgia,serif;font-size:1.25rem;font-weight:700;color:var(--navy);margin-bottom:12px;">Consultative Expertise</h3>
-          <p style="color:var(--muted);line-height:1.7;">At Averon, we don't just process claims — we become an extension of your team. With decades of experience in physician, post-acute, and behavioral health credentialing, our specialists dive deep into your workflows to identify inefficiencies and implement practical fixes.</p>
-        </div>
-        <div style="background:#f8fbff;border-radius:20px;padding:36px;border:1px solid rgba(26,86,219,0.08);transition:all 0.3s ease;" onmouseenter="this.style.transform='translateY(-6px)'" onmouseleave="this.style.transform=''">
-          <div style="font-size:2.5rem;margin-bottom:18px;">📊</div>
-          <h3 style="font-family:'Playfair Display',Georgia,serif;font-size:1.25rem;font-weight:700;color:var(--navy);margin-bottom:12px;">Real-Time Analytics</h3>
-          <p style="color:var(--muted);line-height:1.7;">Gain full visibility into your revenue cycle with our comprehensive dashboards. Track claim status, denial trends, collection rates, and payer performance in real-time — no more guessing about your practice's financial health.</p>
-        </div>
-        <div style="background:#f8fbff;border-radius:20px;padding:36px;border:1px solid rgba(26,86,219,0.08);transition:all 0.3s ease;" onmouseenter="this.style.transform='translateY(-6px)'" onmouseleave="this.style.transform=''">
-          <div style="font-size:2.5rem;margin-bottom:18px;">🤝</div>
-          <h3 style="font-family:'Playfair Display',Georgia,serif;font-size:1.25rem;font-weight:700;color:var(--navy);margin-bottom:12px;">Dedicated Customer Success</h3>
-          <p style="color:var(--muted);line-height:1.7;">Every client receives a dedicated Customer Success Manager — a single point of contact who knows your practice inside and out. No call centers, no ticket queues. Just direct access to your expert partner.</p>
-        </div>
-        <div style="background:#f8fbff;border-radius:20px;padding:36px;border:1px solid rgba(26,86,219,0.08);transition:all 0.3s ease;" onmouseenter="this.style.transform='translateY(-6px)'" onmouseleave="this.style.transform=''">
-          <div style="font-size:2.5rem;margin-bottom:18px;">⚡</div>
-          <h3 style="font-family:'Playfair Display',Georgia,serif;font-size:1.25rem;font-weight:700;color:var(--navy);margin-bottom:12px;">Speed Without Compromise</h3>
-          <p style="color:var(--muted);line-height:1.7;">We submit clean claims within 24 hours of service. Our proprietary scrubbing technology catches errors before submission, resulting in a &lt;3% denial rate versus the industry average of 10–15%.</p>
-        </div>
-        <div style="background:#f8fbff;border-radius:20px;padding:36px;border:1px solid rgba(26,86,219,0.08);transition:all 0.3s ease;" onmouseenter="this.style.transform='translateY(-6px)'" onmouseleave="this.style.transform=''">
-          <div style="font-size:2.5rem;margin-bottom:18px;">🔒</div>
-          <h3 style="font-family:'Playfair Display',Georgia,serif;font-size:1.25rem;font-weight:700;color:var(--navy);margin-bottom:12px;">Security &amp; Compliance First</h3>
-          <p style="color:var(--muted);line-height:1.7;">SOC 2 Type II certified. HIPAA-compliant infrastructure. Regular third-party security audits. Your patients' data and your practice's financials are protected by enterprise-grade security.</p>
-        </div>
-        <div style="background:var(--grad);border-radius:20px;padding:36px;transition:all 0.3s ease;" onmouseenter="this.style.transform='translateY(-6px)'" onmouseleave="this.style.transform=''">
-          <div style="font-size:2.5rem;margin-bottom:18px;">🏆</div>
-          <h3 style="font-family:'Playfair Display',Georgia,serif;font-size:1.25rem;font-weight:700;color:#fff;margin-bottom:12px;">Proven Track Record</h3>
-          <p style="color:rgba(255,255,255,0.7);line-height:1.7;">15+ years. .4B+ billed. 98% net collection rate. 2,000+ providers served. Our results speak for themselves — and our client retention rate of 96% tells the real story.</p>
-        </div>
-      </div>
-    </section>
-
-    <section style="background:var(--navy);padding:90px 5%;text-align:center;position:relative;overflow:hidden;">
-      <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(59,130,246,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(59,130,246,0.06) 1px,transparent 1px);background-size:60px 60px;"></div>
-      <div style="position:relative;z-index:1;" class="reveal">
-        <div class="section-label" style="color:var(--accent);">Ready to See the Difference?</div>
-        <h2 style="font-family:'Playfair Display',Georgia,serif;font-size:clamp(1.8rem,2.5vw,2.6rem);font-weight:700;color:#fff;margin-bottom:20px;">Start Your Free Revenue <span style="background:var(--grad2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Cycle Analysis</span></h2>
-        <p style="color:rgba(255,255,255,0.6);font-size:1.05rem;max-width:520px;margin:0 auto 36px;line-height:1.7;">No commitment required. Our experts will review your current process and show you exactly where revenue is being left on the table.</p>
-        <button class="btn-primary" onclick="showPage('home');setTimeout(scrollToContact,400);">Request Free Assessment →</button>
-      </div>
-    </section>
-
-    <footer style="background:var(--navy);color:rgba(255,255,255,0.6);padding:40px 5%;text-align:center;border-top:1px solid rgba(255,255,255,0.08);">
-      <p style="font-size:0.85rem;">© 2025 Averon Healthcare Solutions. <a onclick="showPage('home')" style="color:var(--accent);cursor:pointer;">Back to Home</a></p>
     </footer>
   </div>
 </div>
@@ -1054,8 +1029,7 @@ function closeSpecialtyPanel() {
   document.getElementById('specialtyOverlay').classList.remove('open');
   document.getElementById('specialtyNavBtn').classList.remove('open');
 }
-// Close on Escape key
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSpecialtyPanel(); });
+// Close on Escape key handled in initApp
 
 // ── "OTHER" SPECIALTY TOGGLE ──
 function handleSpecialtyChange(prefix) {
@@ -1084,21 +1058,23 @@ function handlePracticeTypeChange(prefix) {
 
 function showPage(pageId) {
   closeSpecialtyPanel();
+  closeMobileNav();
   const current = document.getElementById('page-' + currentPage);
   const next = document.getElementById('page-' + pageId);
   if (!next || currentPage === pageId) return;
 
-  current.classList.add('slide-out');
+  current.classList.add('slide-out','animating');
   setTimeout(() => {
-    current.classList.remove('slide-out','active');
+    current.classList.remove('slide-out','active','animating');
     current.style.display = 'none';
     next.style.display = 'block';
+    next.classList.add('animating');
     requestAnimationFrame(() => {
       next.classList.add('active','slide-in');
       window.scrollTo({top:0,behavior:'instant'});
       currentPage = pageId;
       setTimeout(() => {
-        next.classList.remove('slide-in');
+        next.classList.remove('slide-in','animating');
         triggerReveal();
       }, 700);
     });
@@ -1116,29 +1092,35 @@ function scrollToContact() {
   }
 }
 
-// ── SCROLL ANIMATIONS ──
+// ── SCROLL ANIMATIONS — fixed Observer leak ──
+const _revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      _revealObserver.unobserve(entry.target);
+    }
+  });
+}, {threshold: 0.1});
+
 function triggerReveal() {
-  const revealEls = document.querySelectorAll('.reveal,.reveal-left,.reveal-right');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        setTimeout(() => entry.target.classList.add('visible'), i * 80);
-        observer.unobserve(entry.target);
-      }
-    });
-  }, {threshold: 0.1});
-  revealEls.forEach(el => observer.observe(el));
+  document.querySelectorAll('.reveal,.reveal-left,.reveal-right').forEach(el => {
+    if (!el.classList.contains('visible')) _revealObserver.observe(el);
+  });
 }
 
-// ── NAVBAR SCROLL ──
+// ── NAVBAR SCROLL — passive listener ──
 window.addEventListener('scroll', () => {
   const nav = document.getElementById('mainNav');
   if (window.scrollY > 50) nav.classList.add('scrolled');
   else nav.classList.remove('scrolled');
-});
+}, {passive: true});
 
 // ── FORM SUBMISSIONS ──
-const BACKEND_URL = 'http://localhost:3000/api/contact';
+// When served through Node.js, /api/contact is the same server.
+// When opened as a file:// URL, fall back to localhost:3000.
+const BACKEND_URL = (location.protocol === 'file:')
+  ? 'http://localhost:3000/api/contact'
+  : '/api/contact';
 
 async function submitForm(payload, btn, originalText) {
   btn.textContent = 'Sending...';
@@ -1154,34 +1136,16 @@ async function submitForm(payload, btn, originalText) {
       btn.textContent = '✓ Submitted — We\'ll Be in Touch!';
       btn.style.background = 'linear-gradient(135deg,#059669,#065f46)';
     } else {
-      alert(data.message || 'Something went wrong.');
+      alert(data.message || 'Something went wrong. Please try again.');
       btn.textContent = originalText;
       btn.disabled = false;
     }
-  } catch {
-    alert('Network error. Please try again.');
+  } catch (err) {
+    console.error('Form submission error:', err);
+    alert('Could not reach the server. Make sure the backend is running (npm start in the backend folder) and try again.');
     btn.textContent = originalText;
     btn.disabled = false;
   }
-}
-
-function submitHeroForm(e) {
-  e.preventDefault();
-  const btn = e.target.querySelector('.btn-submit');
-  submitForm({
-    firstName: document.getElementById('h-fname').value,
-    lastName:  document.getElementById('h-lname').value,
-    email:     document.getElementById('h-email').value,
-    phone:     document.getElementById('h-phone').value,
-    practice:  document.getElementById('h-practice').value,
-    specialty: document.getElementById('h-specialty').value === '__other__'
-               ? (document.getElementById('h-specialty-custom').value || 'Other')
-               : document.getElementById('h-specialty').value,
-    size:      document.getElementById('h-size').value,
-    service:   document.getElementById('h-service').value,
-    message:   document.getElementById('h-message').value,
-  }, btn, 'Request Free Assessment →');
-  return false;
 }
 
 function submitContactSection(e) {
@@ -1203,10 +1167,18 @@ function submitContactSection(e) {
   return false;
 }
 
-// ── WHY TABS ──
-function activateTab(el) {
-  document.querySelectorAll('.why-tab').forEach(t => t.classList.remove('active'));
-  el.classList.add('active');
+// ── HAMBURGER / MOBILE NAV ──
+function toggleMobileNav() {
+  const nav = document.getElementById('mobileNav');
+  const btn = document.getElementById('hamburgerBtn');
+  nav.classList.toggle('open');
+  btn.classList.toggle('open');
+  document.body.style.overflow = nav.classList.contains('open') ? 'hidden' : '';
+}
+function closeMobileNav() {
+  document.getElementById('mobileNav').classList.remove('open');
+  document.getElementById('hamburgerBtn').classList.remove('open');
+  document.body.style.overflow = '';
 }
 
 // ── INIT ──
@@ -1227,17 +1199,28 @@ function initApp() {
     navLogoImg.onerror = function() { this.src = '/reference/logo-removebg-preview.png'; };
   }
 
-  // interactive shader tracking for hero background
+  // Interactive shader tracking — RAF throttled for smooth 60fps without jank
   const hero = document.querySelector('.hero');
   if (hero) {
+    let rafPending = false;
     hero.addEventListener('mousemove', (e) => {
-      const r = hero.getBoundingClientRect();
-      const x = ((e.clientX - r.left) / r.width) * 100;
-      const y = ((e.clientY - r.top) / r.height) * 100;
-      hero.style.setProperty('--mx', x + '%');
-      hero.style.setProperty('--my', y + '%');
-    });
+      if (rafPending) return;
+      rafPending = true;
+      requestAnimationFrame(() => {
+        const r = hero.getBoundingClientRect();
+        const x = ((e.clientX - r.left) / r.width) * 100;
+        const y = ((e.clientY - r.top) / r.height) * 100;
+        hero.style.setProperty('--mx', x + '%');
+        hero.style.setProperty('--my', y + '%');
+        rafPending = false;
+      });
+    }, {passive: true});
   }
+
+  // Close mobile nav on Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') { closeMobileNav(); closeSpecialtyPanel(); }
+  });
 }
 
 document.addEventListener('DOMContentLoaded', initApp);
@@ -1252,6 +1235,5 @@ setTimeout(() => {
   }
 }, 3000);
 </script>
-    <script src="main.js" defer></script>
 </body>
 </html>

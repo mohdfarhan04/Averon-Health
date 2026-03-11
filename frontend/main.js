@@ -94,68 +94,150 @@ window.addEventListener('scroll', () => {
 });
 
 // ── FORM SUBMISSIONS ──
-const BACKEND_URL = 'http://localhost:3000/api/contact';
+// Auto-detect API URL based on environment
+const BACKEND_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  ? 'http://localhost:3000/api/contact'
+  : `${window.location.protocol}//${window.location.host}/api/contact`;
 
 async function submitForm(payload, btn, originalText) {
   btn.textContent = 'Sending...';
   btn.disabled = true;
+
   try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+
     const res = await fetch(BACKEND_URL, {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify(payload)
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      signal: controller.signal
     });
+
+    clearTimeout(timeoutId);
+
     const data = await res.json();
-    if (data.success) {
+
+    if (res.ok && data.success) {
       btn.textContent = '✓ Submitted — We\'ll Be in Touch!';
       btn.style.background = 'linear-gradient(135deg,#059669,#065f46)';
+      return true;
     } else {
-      alert(data.message || 'Something went wrong.');
+      alert(data.message || 'Something went wrong. Please try again.');
       btn.textContent = originalText;
       btn.disabled = false;
+      return false;
     }
-  } catch {
-    alert('Network error. Please try again.');
+  } catch (err) {
+    let errorMsg = 'Network error. Please check your connection and try again.';
+
+    if (err.name === 'AbortError') {
+      errorMsg = 'Request timeout. Please try again.';
+    } else if (err.message.includes('NetworkError') || err.message.includes('Failed to fetch')) {
+      errorMsg = 'Unable to connect to server. Please check if the backend is running.';
+    }
+
+    console.error('Form submission error:', err);
+    alert(errorMsg);
     btn.textContent = originalText;
     btn.disabled = false;
+    return false;
   }
 }
 
 function submitHeroForm(e) {
   e.preventDefault();
-  const btn = e.target.querySelector('.btn-submit');
-  submitForm({
-    firstName: document.getElementById('h-fname').value,
-    lastName:  document.getElementById('h-lname').value,
-    email:     document.getElementById('h-email').value,
-    phone:     document.getElementById('h-phone').value,
-    practice:  document.getElementById('h-practice').value,
+  const form = e.target;
+  const btn = form.querySelector('.btn-submit');
+
+  // Basic client-side validation
+  const firstName = document.getElementById('h-fname').value.trim();
+  const email = document.getElementById('h-email').value.trim();
+
+  if (!firstName) {
+    alert('Please enter your first name.');
+    return false;
+  }
+
+  if (!email || !email.includes('@')) {
+    alert('Please enter a valid email address.');
+    return false;
+  }
+
+  const payload = {
+    firstName,
+    lastName: document.getElementById('h-lname').value.trim(),
+    email,
+    phone: document.getElementById('h-phone').value.trim(),
+    practice: document.getElementById('h-practice').value.trim(),
     specialty: document.getElementById('h-specialty').value === '__other__'
-               ? (document.getElementById('h-specialty-custom').value || 'Other')
+               ? (document.getElementById('h-specialty-custom').value.trim() || 'Other')
                : document.getElementById('h-specialty').value,
-    size:      document.getElementById('h-size').value,
-    service:   document.getElementById('h-service').value,
-    message:   document.getElementById('h-message').value,
-  }, btn, 'Request Free Assessment →');
+    size: document.getElementById('h-size').value,
+    service: document.getElementById('h-service').value,
+    message: document.getElementById('h-message').value.trim(),
+  };
+
+  submitForm(payload, btn, 'Request Free Assessment →').then(success => {
+    if (success) {
+      form.reset();
+      // Reset custom specialty field if visible
+      const customField = document.getElementById('h-specialty-custom');
+      if (customField) {
+        customField.classList.remove('visible');
+        customField.value = '';
+      }
+    }
+  });
+
   return false;
 }
 
 function submitContactSection(e) {
   e.preventDefault();
-  const btn = e.target.querySelector('.btn-submit');
-  submitForm({
-    firstName: document.getElementById('c-fname').value,
-    lastName:  document.getElementById('c-lname').value,
-    email:     document.getElementById('c-email').value,
-    phone:     document.getElementById('c-phone').value,
-    practice:  document.getElementById('c-practice').value,
+  const form = e.target;
+  const btn = form.querySelector('.btn-submit');
+
+  // Basic client-side validation
+  const firstName = document.getElementById('c-fname').value.trim();
+  const email = document.getElementById('c-email').value.trim();
+
+  if (!firstName) {
+    alert('Please enter your first name.');
+    return false;
+  }
+
+  if (!email || !email.includes('@')) {
+    alert('Please enter a valid email address.');
+    return false;
+  }
+
+  const payload = {
+    firstName,
+    lastName: document.getElementById('c-lname').value.trim(),
+    email,
+    phone: document.getElementById('c-phone').value.trim(),
+    practice: document.getElementById('c-practice').value.trim(),
     specialty: document.getElementById('c-specialty').value === '__other__'
-               ? (document.getElementById('c-specialty-custom').value || 'Other')
+               ? (document.getElementById('c-specialty-custom').value.trim() || 'Other')
                : document.getElementById('c-specialty').value,
-    size:      document.getElementById('c-size').value,
-    service:   document.getElementById('c-service').value,
-    message:   document.getElementById('c-message').value,
-  }, btn, 'Request Free Assessment →');
+    size: document.getElementById('c-size').value,
+    service: document.getElementById('c-service').value,
+    message: document.getElementById('c-message').value.trim(),
+  };
+
+  submitForm(payload, btn, 'Request Free Assessment →').then(success => {
+    if (success) {
+      form.reset();
+      // Reset custom specialty field if visible
+      const customField = document.getElementById('c-specialty-custom');
+      if (customField) {
+        customField.classList.remove('visible');
+        customField.value = '';
+      }
+    }
+  });
+
   return false;
 }
 
