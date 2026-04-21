@@ -97,7 +97,7 @@ window.addEventListener('scroll', () => {
 // Auto-detect API URL based on environment
 const BACKEND_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
   ? 'http://localhost:3000/api/contact'
-  : `${window.location.protocol}//${window.location.host}/api/contact`;
+  : `${window.location.protocol}//${window.location.host}/api/contact`; 
 
 async function submitForm(payload, btn, originalText) {
   btn.textContent = 'Sending...';
