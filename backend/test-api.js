@@ -66,16 +66,12 @@ function testHealthCheck() {
   });
 }
 
-// Test 2: Form Submission (validation)
-function testFormValidation() {
+// Shared validation request used by required-field and email checks.
+function testValidation(payloadData, heading, label) {
   return new Promise((resolve, reject) => {
-    console.log('\n2️⃣  Testing Form Validation...');
+    console.log(heading);
 
-    const payload = JSON.stringify({
-      // Missing required fields
-      lastName: 'Doe',
-      phone: '555-1234',
-    });
+    const payload = JSON.stringify(payloadData);
 
     const options = {
       hostname: HOST,
@@ -99,11 +95,11 @@ function testFormValidation() {
         try {
           const response = JSON.parse(data);
           if (res.statusCode === 400 && !response.success) {
-            console.log('   ✓ Validation working correctly');
+            console.log(`   ✓ ${label} working correctly`);
             console.log(`   Message: ${response.message}`);
             resolve(true);
           } else {
-            console.log('   ✗ Validation test unexpected result');
+            console.log(`   ✗ ${label} test unexpected result`);
             console.log(`   Status: ${res.statusCode}`, response);
             resolve(false);
           }
@@ -124,61 +120,12 @@ function testFormValidation() {
   });
 }
 
-// Test 3: Email Validation
+function testFormValidation() {
+  return testValidation({lastName: 'Doe', phone: '555-1234'}, '\n2️⃣  Testing Form Validation...', 'Validation');
+}
+
 function testEmailValidation() {
-  return new Promise((resolve, reject) => {
-    console.log('\n3️⃣  Testing Email Validation...');
-
-    const payload = JSON.stringify({
-      firstName: 'John',
-      email: 'invalid-email', // Invalid email format
-    });
-
-    const options = {
-      hostname: HOST,
-      port: PORT,
-      path: '/api/contact',
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Content-Length': Buffer.byteLength(payload),
-      },
-    };
-
-    const req = http.request(options, (res) => {
-      let data = '';
-
-      res.on('data', (chunk) => {
-        data += chunk;
-      });
-
-      res.on('end', () => {
-        try {
-          const response = JSON.parse(data);
-          if (res.statusCode === 400 && !response.success) {
-            console.log('   ✓ Email validation working correctly');
-            console.log(`   Message: ${response.message}`);
-            resolve(true);
-          } else {
-            console.log('   ✗ Email validation unexpected result');
-            console.log(`   Status: ${res.statusCode}`, response);
-            resolve(false);
-          }
-        } catch (err) {
-          console.log('   ✗ Failed to parse response:', err.message);
-          reject(err);
-        }
-      });
-    });
-
-    req.on('error', (err) => {
-      console.log('   ✗ Request failed:', err.message);
-      reject(err);
-    });
-
-    req.write(payload);
-    req.end();
-  });
+  return testValidation({firstName: 'John', email: 'invalid-email'}, '\n3️⃣  Testing Email Validation...', 'Email validation');
 }
 
 // Test 4: Rate Limiting
@@ -191,10 +138,9 @@ function testRateLimiting() {
       email: 'test@example.com',
     });
 
-    let requestCount = 0;
     let blockedCount = 0;
 
-    function sendRequest(i) {
+    function sendRequest() {
       return new Promise((res) => {
         const options = {
           hostname: HOST,
@@ -208,10 +154,8 @@ function testRateLimiting() {
         };
 
         const req = http.request(options, (response) => {
-          let data = '';
-          response.on('data', (chunk) => { data += chunk; });
+          response.resume();
           response.on('end', () => {
-            requestCount++;
             if (response.statusCode === 429) {
               blockedCount++;
             }
@@ -226,7 +170,7 @@ function testRateLimiting() {
     }
 
     // Send 12 rapid requests
-    Promise.all([...Array(12)].map((_, i) => sendRequest(i)))
+    Promise.all(Array.from({length:12}, sendRequest))
       .then(() => {
         if (blockedCount > 0) {
           console.log(`   ✓ Rate limiting working (${blockedCount}/12 requests blocked)`);

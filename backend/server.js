@@ -100,8 +100,13 @@ setInterval(() => {
 }, 300000);
 
 // Serve static assets
+const frontendPath = path.join(__dirname, '..', 'frontend');
 app.use('/reference', express.static(path.join(__dirname, '..', 'reference')));
-app.use('/frontend', express.static(path.join(__dirname, '..', 'frontend')));
+app.use('/frontend', express.static(frontendPath));
+// Relative frontend asset links also work when the page is served at '/'.
+app.get(['/styles.css', '/main.js'], (req, res) => {
+  res.sendFile(path.join(frontendPath, path.basename(req.path)));
+});
 
 // Google Sheets auth
 async function getAuthClient() {
@@ -268,9 +273,7 @@ app.post('/api/contact', rateLimitMiddleware, async (req, res) => {
     // Provide more specific error messages based on error type
     let errorMessage = 'Something went wrong. Please try again later.';
 
-    if (err.message.includes('credentials.json')) {
-      errorMessage = 'Server configuration error. Please contact support.';
-    } else if (err.message.includes('SPREADSHEET_ID')) {
+    if (err.message.includes('credentials.json') || err.message.includes('SPREADSHEET_ID')) {
       errorMessage = 'Server configuration error. Please contact support.';
     } else if (err.code === 'ENOTFOUND' || err.code === 'ETIMEDOUT') {
       errorMessage = 'Network error. Please check your connection and try again.';
@@ -285,7 +288,7 @@ app.post('/api/contact', rateLimitMiddleware, async (req, res) => {
 
 // Serve frontend
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'frontend', 'averon-main.html'));
+  res.sendFile(path.join(frontendPath, 'averon-main.html'));
 });
 
 // 404 handler
