@@ -124,7 +124,7 @@ async function verifyConnection() {
 
       try {
         // Try to read the first cell
-        const readTest = await sheets.spreadsheets.values.get({
+        await sheets.spreadsheets.values.get({
           spreadsheetId,
           range: `${sheetName}!A1:A1`,
         }).catch(() => ({ data: { values: [] } }));
