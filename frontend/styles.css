@@ -119,22 +119,32 @@ nav.scrolled {
 }
 
 .nav-logo {
+  position:relative;
   display:flex;
   align-items:center;
   gap:12px;
   cursor:pointer;
   justify-self:start;
+  width:130px;
+  height:44px;
+  overflow:hidden;
 }
 
 .nav-logo img {
-  height:125px;
-  width:auto;
-  filter:brightness(1.9) drop-shadow(0 0 8px rgba(96,165,250,0.45));
+  position:absolute;
+  top:0;
+  left:0;
+  width:195px;
+  height:auto;
+  max-width:none;
+  flex:none;
+  transform:translate(-35px,-42px);
+  filter:brightness(1.55);
   transition:filter 0.3s ease;
 }
 
 .nav-logo:hover img {
-  filter:brightness(1.7) drop-shadow(0 0 14px rgba(96,165,250,0.65));
+  filter:drop-shadow(0 0 8px rgba(96,165,250,0.5));
 }
 
 .nav-links {
@@ -1264,11 +1274,6 @@ footer {
   margin-right:auto;
 }
 
-.footer-brand .nav-logo {
-  margin-bottom:10px;
-  display:inline-flex;
-}
-
 .footer-brand p {
   font-size:0.85rem;
   line-height:1.65;
@@ -1916,7 +1921,7 @@ button,a,input,select,textarea {
   inset:0;
   z-index:-1;
   overflow:hidden;
-  background:#071226;
+  background:#071226 url('assets/globe-poster.jpg') center/cover no-repeat;
   pointer-events:none;
 }
 
@@ -2434,6 +2439,19 @@ body .process-decoration {
 body .process-icon {
   font-size:3rem;
 }
+
+.value-icon,.service-icon { color:#176bc4; }
+.contact-icon { color:#fff; }
+.value-icon svg,.service-icon svg,.contact-icon svg,.contact-icon img {
+  width:28px;
+  height:28px;
+  display:block;
+  fill:currentColor;
+}
+.contact-icon img { filter:brightness(0) invert(1); }
+.contact-icon svg { fill:none; }
+.process-icon svg { width:48px; height:48px; display:block; fill:currentColor; }
+.inline-icon { width:1.1em; height:1.1em; vertical-align:-0.15em; }
 
 body .process-title {
   font-family:'Plus Jakarta Sans',Arial,sans-serif;

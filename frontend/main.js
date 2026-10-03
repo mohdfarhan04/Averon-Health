@@ -3,15 +3,15 @@ const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 let motionPaused = reducedMotion.matches;
 const video = document.getElementById('siteVideo');
 const motionToggle = document.getElementById('motionToggle');
-const assetRoot = location.protocol === 'file:' ? 'assets/' : '/frontend/assets/';
-video.poster = assetRoot + 'globe-poster.jpg';
+const assetRoot = new URL('assets/', document.baseURI).href;
+let pageReady = document.readyState === 'complete';
 let playbackAttempt = 0;
 function syncMotion() {
   const attempt = ++playbackAttempt;
   document.body.classList.toggle('motion-paused', motionPaused);
   motionToggle.textContent = motionPaused ? 'Play motion' : 'Pause motion';
   motionToggle.setAttribute('aria-pressed', String(motionPaused));
-  if (motionPaused || document.hidden) {
+  if (motionPaused || document.hidden || !pageReady) {
     video.pause();
   } else {
     if (!video.getAttribute('src')) video.src = assetRoot + 'globe.mp4';
@@ -25,6 +25,7 @@ function syncMotion() {
 motionToggle.addEventListener('click', () => { motionPaused = !motionPaused; syncMotion(); });
 reducedMotion.addEventListener('change', () => { motionPaused = reducedMotion.matches; syncMotion(); });
 document.addEventListener('visibilitychange', syncMotion);
+if (!pageReady) window.addEventListener('load', () => { pageReady = true; syncMotion(); }, {once:true});
 syncMotion();
 
 function initCarousels() {
@@ -332,22 +333,11 @@ function bindInterfaceEvents() {
     });
   });
   document.querySelector('[data-contact-form]').addEventListener('submit', submitContactSection);
-  document.querySelectorAll('img[data-fallback-src]').forEach(img => {
-    const useFallback = () => {
-      if (!img.dataset.fallbackSrc) return;
-      const fallback = img.dataset.fallbackSrc;
-      delete img.dataset.fallbackSrc;
-      img.src = fallback;
-    };
-    img.addEventListener('error', useFallback, {once:true});
-    if (img.complete && !img.naturalWidth) useFallback();
-  });
 }
 
 function initApp() {
   bindInterfaceEvents();
   initCarousels();
-  // Keep the existing entrance timing; the same helper handles the fallback.
   setTimeout(finishLoading, 800);
 
   // Close mobile nav on Escape

@@ -4,6 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Averon Healthcare Solutions – Your Credentialing Partner</title>
+<link rel="icon" type="image/png" href="assets/averon-favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
@@ -12,14 +13,14 @@
 </head>
 <body>
 <div class="site-backdrop" aria-hidden="true">
-  <video id="siteVideo" muted loop playsinline preload="metadata" disablepictureinpicture></video>
+  <video id="siteVideo" muted loop playsinline preload="none" poster="assets/globe-poster.jpg" disablepictureinpicture></video>
 </div>
 <button class="motion-toggle" id="motionToggle" type="button" aria-pressed="false">Pause motion</button>
 
 <!-- LOADER -->
 <div id="page-loader">
   <div class="loader-logo">
-    <img src="../reference/logo-removebg-preview.png" alt="Averon Healthcare Solutions" data-fallback-src="/reference/logo-removebg-preview.png"/>
+    <img src="assets/averon-logo.png" alt="Averon Healthcare Solutions"/>
     <div class="loader-spinner"></div>
   </div>
 </div>
@@ -27,9 +28,8 @@
 <nav id="mainNav">
     <div class="nav-logo" data-action="page" data-page="home">
     <img
-      src="../reference/logo-removebg-preview.png"
+      src="assets/averon-logo.png"
       alt="Averon Healthcare Solutions"
-      data-fallback-src="/reference/logo-removebg-preview.png"
     />
   </div>
   <div class="nav-links">
@@ -174,7 +174,7 @@
           <div class="form-submit form-submit-spacing">
             <button type="submit" class="btn-submit">Request Free Assessment →</button>
           </div>
-          <p class="form-note form-note-muted">🔐 Your information is 100% confidential and HIPAA-protected.</p>
+          <p class="form-note form-note-muted"><svg class="inline-icon" aria-hidden="true" viewBox="0 0 24 24"><path fill="currentColor" d="M18 8h-1V6a5 5 0 0 0-10 0v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2ZM9 6a3 3 0 0 1 6 0v2H9V6Zm9 14H6V10h12v10Zm-6-3a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/></svg> Your information is 100% confidential and HIPAA-protected.</p>
         </form>
       </div>
     </div>
@@ -194,32 +194,32 @@
     </div>
     <div class="values-grid reveal" data-carousel="Our values">
       <div class="value-card">
-        <div class="value-icon">🛡️</div>
+        <div class="value-icon"><svg aria-hidden="true"><use href="assets/custom-icons.svg#verified"/></svg></div>
         <h3>Integrity First</h3>
         <p>We do the right thing in every claim, report, and recommendation with full professional accountability.</p>
       </div>
       <div class="value-card">
-        <div class="value-icon">🔍</div>
+        <div class="value-icon"><svg aria-hidden="true"><use href="assets/custom-icons.svg#payments"/></svg></div>
         <h3>Transparency</h3>
         <p>From claim status to collections performance, we provide clear visibility and honest communication.</p>
       </div>
       <div class="value-card">
-        <div class="value-icon">🎯</div>
+        <div class="value-icon"><svg aria-hidden="true"><use href="assets/custom-icons.svg#target"/></svg></div>
         <h3>Results with Precision</h3>
         <p>We combine deep domain expertise with detail-focused execution to protect revenue and reduce denials.</p>
       </div>
       <div class="value-card">
-        <div class="value-icon">🤝</div>
+        <div class="value-icon"><svg aria-hidden="true"><use href="assets/custom-icons.svg#handshake"/></svg></div>
         <h3>Partnership Mindset</h3>
         <p>We work as an extension of your team and align our approach to your specialty, workflows, and goals.</p>
       </div>
       <div class="value-card">
-        <div class="value-icon">💡</div>
+        <div class="value-icon"><svg aria-hidden="true"><use href="assets/custom-icons.svg#checklist"/></svg></div>
         <h3>Continuous Improvement</h3>
         <p>We constantly refine processes, coding quality, and payer strategies to improve long-term outcomes.</p>
       </div>
       <div class="value-card">
-        <div class="value-icon">❤️</div>
+        <div class="value-icon"><svg aria-hidden="true"><use href="assets/custom-icons.svg#health-shield"/></svg></div>
         <h3>Care-Centered Service</h3>
         <p>Every financial workflow we optimize supports one goal: giving providers more time for patient care.</p>
       </div>
@@ -310,12 +310,12 @@
         <div class="contact-info">
 
           <div class="contact-item">
-            <div class="contact-icon">✉️</div>
+            <div class="contact-icon"><img src="assets/contact-mail.svg" alt=""/></div>
             <div class="contact-detail"><div class="lbl">Email Us</div><div class="val">info@averonhcs.com</div></div>
           </div>
 
           <div class="contact-item">
-           <div class="contact-icon">📞</div>
+           <div class="contact-icon"><svg aria-hidden="true"><use href="assets/custom-icons.svg#phone"/></svg></div>
            <div class="contact-detail">
       <div class="lbl">Call Us</div>
       <div class="val"><a href="tel:+91 6383075954" class="plain-link">+91 6383075954</a></div>
@@ -323,7 +323,7 @@
   </div>
 
           <div class="contact-item">
-            <div class="contact-icon">⏰</div>
+            <div class="contact-icon"><svg aria-hidden="true"><use href="assets/custom-icons.svg#clock"/></svg></div>
             <div class="contact-detail"><div class="lbl">Business Hours</div><div class="val">Mon – Fri, 7:00 AM – 4:00 PM CST</div></div>
           </div>
         </div>
@@ -337,7 +337,7 @@
   <footer>
     <div class="footer-top">
       <div class="footer-brand">
-        <div><img src="../reference/logo-removebg-preview.png" alt="Averon Healthcare Solutions" data-fallback-src="/reference/logo-removebg-preview.png" class="footer-logo-image"></div>
+        <div><img src="assets/averon-logo.png" alt="Averon Healthcare Solutions" class="footer-logo-image"></div>
         <p> Averon Healthcare Solutions delivers expert Credentialing, Contracting and compliance consulting to healthcare providers nationwide.</p>
       </div>
       <div class="footer-col">
@@ -397,37 +397,37 @@
       </div>
       <div class="services-grid reveal" data-carousel="Our services">
         <div class="service-card">
-          <div class="service-icon">📋</div>
+          <div class="service-icon"><svg aria-hidden="true"><use href="assets/custom-icons.svg#verified"/></svg></div>
           <h3>Medical Credentialing</h3>
           <p>End-to-end credentialing and re-credentialing with all major commercial payers. We handle CAQH ProView, primary source verification, and ongoing follow-up — so providers start billing faster with zero administrative burden.</p>
           <button class="service-link" type="button" data-action="contact">Learn More →</button>
         </div>
         <div class="service-card">
-          <div class="service-icon">💰</div>
+          <div class="service-icon"><svg aria-hidden="true"><use href="assets/custom-icons.svg#medical-id"/></svg></div>
           <h3>Provider Enrollment</h3>
           <p>Complete Medicare, Medicaid, and commercial payer enrollment from application to approval. We manage PECOS, Availity, and payer portals — reducing enrollment timelines and preventing revenue delays.</p>
           <button class="service-link" type="button" data-action="contact">Learn More →</button>
         </div>
         <div class="service-card">
-          <div class="service-icon">🔢</div>
+          <div class="service-icon"><svg aria-hidden="true"><use href="assets/custom-icons.svg#handshake"/></svg></div>
           <h3>Payer Contracting</h3>
           <p>Strategic fee schedule negotiation and contract management with commercial insurers. We review, renegotiate, and track payer agreements to maximize reimbursement rates for your practice.</p>
           <button class="service-link" type="button" data-action="contact">Learn More →</button>
         </div>
         <div class="service-card">
-          <div class="service-icon">📈</div>
+          <div class="service-icon"><svg aria-hidden="true"><use href="assets/custom-icons.svg#target"/></svg></div>
           <h3> Practice Consulting</h3>
           <p>Holistic advisory on credentialing workflows, payer mix strategy, and enrollment timelines. We identify bottlenecks before they impact your revenue cycle and build systems that scale with your practice.</p>
           <button class="service-link" type="button" data-action="contact">Learn More →</button>
         </div>
         <div class="service-card">
-          <div class="service-icon">🛡️</div>
+          <div class="service-icon"><svg aria-hidden="true"><use href="assets/custom-icons.svg#health-shield"/></svg></div>
           <h3>HIPAA Compliance</h3>
           <p>Stay ahead of regulatory requirements with expert guidance on HIPAA, OIG, and payer policy compliance. Protect your practice from audits and penalties.</p>
           <button class="service-link" type="button" data-action="contact">Learn More →</button>
         </div>
         <div class="service-card">
-          <div class="service-icon">💻</div>
+          <div class="service-icon"><svg aria-hidden="true"><use href="assets/custom-icons.svg#checklist"/></svg></div>
           <h3>Hospital Privileging</h3>
           <p>Streamlined hospital and facility privileging support — from initial applications to reappointments. We coordinate with medical staff offices to keep privileges current and aligned with payer credentialing.</p>
           <button class="service-link" type="button" data-action="contact">Learn More →</button>
@@ -440,7 +440,7 @@
         <div class="why-visual">
           <div class="process-panel">
             <div class="process-decoration"></div>
-            <div class="process-icon">🎯</div>
+            <div class="process-icon"><svg aria-hidden="true"><use href="assets/custom-icons.svg#target"/></svg></div>
             <h3 class="process-title">Our Process</h3>
             <div class="process-steps">
               <div class="process-step">
