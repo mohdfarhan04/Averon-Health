@@ -105,7 +105,7 @@ app.use('/reference', express.static(path.join(__dirname, '..', 'reference')));
 app.use('/frontend', express.static(frontendPath));
 app.use('/assets', express.static(path.join(frontendPath, 'assets')));
 // Relative frontend asset links also work when the page is served at '/'.
-app.get(['/styles.css', '/main.js', '/sitemap.xml'], (req, res) => {
+app.get(['/styles.css', '/main.js', '/sitemap.xml','/robots.txt'], (req, res) => {
     res.sendFile(path.join(frontendPath, path.basename(req.path)));
 });
 
